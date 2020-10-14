@@ -26,8 +26,4 @@ public class ArrayIt implements Iterator<Integer> {
         }
         return data[point++];
     }
-
-    @Override
-    public void remove() {
-    }
 }
