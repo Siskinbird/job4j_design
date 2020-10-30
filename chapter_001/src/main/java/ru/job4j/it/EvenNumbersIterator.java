@@ -6,8 +6,8 @@ import java.util.NoSuchElementException;
 /**
  * Iterator for even numbers
  * @author Dmitry Chizhov
- * @since 22.10.20
- * @version 1.00
+ * @since 30.10.20
+ * @version 1.10
  */
 public class EvenNumbersIterator implements Iterator<Integer> {
     private final int[] numbers;
@@ -33,12 +33,11 @@ public class EvenNumbersIterator implements Iterator<Integer> {
      */
     @Override
     public boolean hasNext() {
-        if (point < numbers.length && isEven(numbers)) {
+        while (point < numbers.length){
+            if (isEven(numbers)){
                 return true;
-        }
-        point++;
-        if (point < numbers.length && isEven(numbers)) {
-            return true;
+            }
+            point++;
         }
         return false;
     }
