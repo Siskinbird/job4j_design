@@ -3,6 +3,12 @@ package ru.job4j.it;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * Class MatrixIt - Iterator for two-dimensional array
+ * @author Dmitry Chizhov dimachig@gmail.com
+ * @version 1.00
+ * @since 30.10.20
+ */
 public class MatrixIt implements Iterator<Integer> {
     private final int[][] data;
     private int row = 0;
@@ -28,10 +34,6 @@ public class MatrixIt implements Iterator<Integer> {
         }
         int element = data[row][column];
         column++;
-        while (row < data.length && column >= data[row].length) {
-            column = 0;
-            row++;
-        }
         return element;
     }
 }
