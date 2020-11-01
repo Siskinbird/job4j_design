@@ -33,8 +33,8 @@ public class EvenNumbersIterator implements Iterator<Integer> {
      */
     @Override
     public boolean hasNext() {
-        while (point < numbers.length){
-            if (isEven(numbers)){
+        while (point < numbers.length) {
+            if (isEven(numbers)) {
                 return true;
             }
             point++;
