@@ -22,8 +22,7 @@ public class SimpleArrayTest {
             array.add("third");
             String rsl = array.set(0, "modelForIndexOne");
             assertThat(rsl, is("modelForIndexOne"));
-
-        }
+    }
         @Test
         public void whenRemoveThenGet() {
             SimpleArray<String> array = new SimpleArray<>();
@@ -34,9 +33,9 @@ public class SimpleArrayTest {
             array.add("four");
             array.add("fifth");
             array.add("six");
-            array.remove(3);
-            String rsl = array.get(3);
-            assertThat(rsl, is("four"));
+            array.remove(5);
+            String rsl = array.get(5);
+            assertThat(rsl, is("six"));
 
         }
 }
