@@ -1,31 +1,38 @@
 package ru.job4j.generics;
 
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Objects;
 
 public class SimpleArray<T> implements Iterable<T> {
     private int index = 0;
-    private ArrayList<T> data = new ArrayList<>();
+    private int capacity = 10;
+    private T[] array = (T[]) new Object[capacity];
 
     public T get(int index) {
-        return data.get(index);
+        return array[index];
     }
 
     public void add(T model) {
-        data.add(model);
+        array[index] = model;
         index++;
     }
+    public T set(int index, T model) throws IndexOutOfBoundsException{
+        if (Objects.checkIndex(index, capacity) < 0 || Objects.checkIndex(index, capacity) > capacity){
+            throw new IndexOutOfBoundsException();
+        }
+        return array[index] = model;
+    }
 
-    public String set(int index, T model) {
-        data.set(index, model);
-        return model.toString();
+
+    public <T> void remove(int index) throws IndexOutOfBoundsException{
+        if (Objects.checkIndex(index, capacity) < 0 || Objects.checkIndex(index, capacity) > capacity){
+            throw new IndexOutOfBoundsException();
+        }
+        System.arraycopy(array,index+1,array,index,6);
     }
-    public <T> void remove(int index) {
-        data.remove(index);
-        this.index--;
-    }
+
     @Override
     public Iterator<T> iterator() {
-        return data.iterator();
+        return null;
     }
 }

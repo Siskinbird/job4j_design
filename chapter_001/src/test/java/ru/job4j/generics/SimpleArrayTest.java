@@ -15,24 +15,28 @@ public class SimpleArrayTest {
         assertThat(rsl, is("first"));
     }
     @Test
-    public void whenSetThenGet() {
-        SimpleArray<String> array = new SimpleArray<>();
-        array.add("first");
-        array.add("second");
-        array.add("third");
-        String rsl = array.set(0, "modelForIndexOne");
-        assertThat(rsl, is("modelForIndexOne"));
+        public void whenSetThenGet() {
+            SimpleArray<String> array = new SimpleArray<>();
+            array.add("first");
+            array.add("second");
+            array.add("third");
+            String rsl = array.set(0, "modelForIndexOne");
+            assertThat(rsl, is("modelForIndexOne"));
 
-    }
-    @Test
-    public void whenRemoveThenGet() {
-        SimpleArray<String> array = new SimpleArray<>();
-        array.add("first");
-        array.add("second");
-        array.add("third");
-        array.remove(0);
-        String rsl = array.get(0);
-        assertThat(rsl, is("second"));
+        }
+        @Test
+        public void whenRemoveThenGet() {
+            SimpleArray<String> array = new SimpleArray<>();
+            array.add("zero");
+            array.add("first");
+            array.add("second");
+            array.add("third");
+            array.add("four");
+            array.add("fifth");
+            array.add("six");
+            array.remove(3);
+            String rsl = array.get(3);
+            assertThat(rsl, is("four"));
 
-    }
+        }
 }
