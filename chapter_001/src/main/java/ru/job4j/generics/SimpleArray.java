@@ -1,8 +1,6 @@
 package ru.job4j.generics;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Universal wrapper over an array
@@ -12,9 +10,10 @@ import java.util.Objects;
  * @param <T>
  */
 public class SimpleArray<T> implements Iterable<T> {
-    private int index = 0;
+    private int index;
+    private int position;
     private final int capacity = 10;
-    private final T[] array = (T[]) new Object[capacity];
+    private T[] array = (T[]) new Object[capacity];
 
     /**
      * The method implements the ability to obtain data by index
@@ -44,9 +43,7 @@ public class SimpleArray<T> implements Iterable<T> {
      */
 
     public T set(int index, T model) throws IndexOutOfBoundsException {
-        if (Objects.checkIndex(index, capacity) < 0 || Objects.checkIndex(index, capacity) > capacity) {
-            throw new IndexOutOfBoundsException();
-        }
+        Objects.checkIndex(index, capacity);
         return array[index] = model;
     }
 
@@ -58,31 +55,30 @@ public class SimpleArray<T> implements Iterable<T> {
 
 
     public void remove(int index) throws IndexOutOfBoundsException {
-        if (Objects.checkIndex(index, capacity) < 0 || Objects.checkIndex(index, capacity) > capacity) {
-            throw new IndexOutOfBoundsException();
-        }
-        System.arraycopy(array, index + 1, array, index, capacity - (index + 1));
+       Objects.checkIndex(index, capacity);
+        System.arraycopy(array, index + 1, array, index, capacity - this.index-- );
+        array[array.length - 1] = null;
     }
 
     /**
      * An iterator for working with an array
-     * @return - iterator
+     * @return - iterator<T>
+     * @throws - NoSuchElementException
      */
 
     @Override
     public Iterator<T> iterator() {
-        return new Iterator<>() {
-            @Override
+       return new Iterator<T>() {
+           @Override
             public boolean hasNext() {
-                return array[index++] != null;
-            }
-
+               return position < index;
+           }
             @Override
             public T next() throws NoSuchElementException {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                return array[index++];
+                return array[position++];
             }
         };
     }
