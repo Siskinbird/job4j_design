@@ -11,8 +11,9 @@ import java.util.*;
  */
 public class SimpleArray<T> implements Iterable<T> {
     private int index;
-    private final int capacity = 10;
+    private int capacity = 10;
     private T[] array = (T[]) new Object[capacity];
+
 
     /**
      * The method implements the ability to obtain data by index
@@ -66,21 +67,23 @@ public class SimpleArray<T> implements Iterable<T> {
      * @throws - NoSuchElementException
      */
 
-    @Override
-    public Iterator<T> iterator() {
-       return new Iterator<T>() {
-           int position;
-           @Override
-            public boolean hasNext() {
-               return position < index;
-           }
-            @Override
-            public T next() throws NoSuchElementException {
-                if (!hasNext()) {
-                    throw new NoSuchElementException();
-                }
-                return array[position++];
+public Iterator<T> iterator(){
+    return iterator;
+}
+    Iterator<T> iterator = new Iterator<T>() {
+        int position = 0;
+
+        @Override
+        public boolean hasNext() {
+            return position < index;
+        }
+
+        @Override
+        public T next() throws NoSuchElementException {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
             }
-        };
-    }
+            return array[position++];
+        }
+    };
 }
