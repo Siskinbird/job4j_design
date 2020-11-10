@@ -11,7 +11,6 @@ import java.util.*;
  */
 public class SimpleArray<T> implements Iterable<T> {
     private int index;
-    private int position;
     private final int capacity = 10;
     private T[] array = (T[]) new Object[capacity];
 
@@ -21,6 +20,7 @@ public class SimpleArray<T> implements Iterable<T> {
      * @return - data
      */
     public T get(int index) {
+        Objects.checkIndex(index, this.index);
         return array[index];
     }
 
@@ -43,7 +43,7 @@ public class SimpleArray<T> implements Iterable<T> {
      */
 
     public T set(int index, T model) throws IndexOutOfBoundsException {
-        Objects.checkIndex(index, capacity);
+        Objects.checkIndex(index, this.index);
         return array[index] = model;
     }
 
@@ -55,7 +55,7 @@ public class SimpleArray<T> implements Iterable<T> {
 
 
     public void remove(int index) throws IndexOutOfBoundsException {
-       Objects.checkIndex(index, capacity);
+       Objects.checkIndex(index, this.index);
         System.arraycopy(array, index + 1, array, index, capacity - this.index-- );
         array[array.length - 1] = null;
     }
@@ -69,6 +69,7 @@ public class SimpleArray<T> implements Iterable<T> {
     @Override
     public Iterator<T> iterator() {
        return new Iterator<T>() {
+           int position;
            @Override
             public boolean hasNext() {
                return position < index;
