@@ -45,7 +45,8 @@ public class SimpleArray<T> implements Iterable<T> {
 
     public T set(int index, T model) throws IndexOutOfBoundsException {
         Objects.checkIndex(index, this.index);
-        return array[index] = model;
+        array[index] = model;
+        return array[index];
     }
 
     /**
@@ -56,8 +57,8 @@ public class SimpleArray<T> implements Iterable<T> {
 
 
     public void remove(int index) throws IndexOutOfBoundsException {
-       Objects.checkIndex(index, this.index);
-        System.arraycopy(array, index + 1, array, index, capacity - this.index-- );
+        Objects.checkIndex(index, this.index);
+        System.arraycopy(array, index + 1, array, index, capacity - this.index--);
         array[array.length - 1] = null;
     }
 
@@ -67,9 +68,9 @@ public class SimpleArray<T> implements Iterable<T> {
      * @throws - NoSuchElementException
      */
 
-public Iterator<T> iterator(){
-    return iterator;
-}
+    public Iterator<T> iterator() {
+        return iterator;
+    }
     Iterator<T> iterator = new Iterator<T>() {
         int position = 0;
 
