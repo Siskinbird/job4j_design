@@ -29,6 +29,6 @@ public class RoleStore<Role extends Base> implements Store<Role> {
 
     @Override
     public Role findById(String id) {
-        return null;
+        return store.findById(id);
     }
 }

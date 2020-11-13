@@ -5,7 +5,6 @@ public class UserStore<User extends Base> implements Store<User> {
 
     private final Store<User> store = new MemStore<>();
 
-
     @Override
     public void add(User model) {
         store.add(model);
@@ -30,6 +29,6 @@ public class UserStore<User extends Base> implements Store<User> {
 
     @Override
     public User findById(String id) {
-        return null;
+        return store.findById(id);
     }
 }
