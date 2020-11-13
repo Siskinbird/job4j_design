@@ -45,7 +45,7 @@ public class Generics {
      * @param list
      */
     public void printObject(List<?> list) {
-        for (Iterator<?> it = list.iterator(); it.hasNext(); ) {
+        for (Iterator<?> it = list.iterator(); it.hasNext();) {
             Object next = it.next();
             System.out.println("Это чудесное " + next);
         }
@@ -56,7 +56,7 @@ public class Generics {
      * @param list
      */
     public void printBoundedWildCard(List<? extends Animal> list) {
-        for (Iterator<? extends Animal> it = list.iterator(); it.hasNext(); ) {
+        for (Iterator<? extends Animal> it = list.iterator(); it.hasNext();) {
             Object next = it.next();
             System.out.println("Это чудесное " + next);
         }
@@ -67,7 +67,7 @@ public class Generics {
      * @param list
      */
     public void printLowerBoundedWildCard(List<? super Predator> list) {
-        for (Iterator<? super Predator> it = list.iterator(); it.hasNext(); ) {
+        for (Iterator<? super Predator> it = list.iterator(); it.hasNext();) {
             Object next = it.next();
             System.out.println("Это чудесное " + next);
         }
