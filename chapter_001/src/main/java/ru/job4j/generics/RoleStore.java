@@ -22,7 +22,7 @@ public class RoleStore<Role extends Base> implements Store<Role> {
     public boolean delete(String id) {
         if (store.findById(id) == null) {
             return false;
-        }else {
+        }else  {
             return true;
         }
     }

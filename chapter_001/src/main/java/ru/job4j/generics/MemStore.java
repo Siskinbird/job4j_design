@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public final class MemStore<T extends Base> implements Store<T> {
+public final class MemStore<T extends Base> implements Store<T>{
 
     private final List<T> mem = new ArrayList<>();
 

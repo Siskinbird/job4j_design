@@ -16,7 +16,7 @@ public class UserStore<User extends Base> implements Store<User> {
         if (model.getId().equals(id)){
             delete(id);
         }
-        return false;
+        return  false;
     }
 
     @Override
