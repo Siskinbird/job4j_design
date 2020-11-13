@@ -2,7 +2,6 @@ package ru.job4j.generics;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public final class MemStore<T extends Base> implements Store<T>{
 
@@ -31,6 +30,6 @@ public final class MemStore<T extends Base> implements Store<T>{
 
     @Override
     public T findById(String id) {
-        return (T) mem.stream().findFirst().filter(i -> i.equals(id)).stream().collect(Collectors.toList());
+        return (T) mem.stream().filter(i -> i.equals(id)).findFirst().orElse(null);
     }
 }
