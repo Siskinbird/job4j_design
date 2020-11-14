@@ -14,16 +14,18 @@ public final class MemStore<T extends Base> implements Store<T>{
 
     @Override
     public boolean replace(String id, T model) {
-        if (model.getId().equals(id)){
-            delete(id);
+        if (findById(id) != null) {
+            findById(id).setModel(model);
+            return true;
         }
         return false;
     }
 
     @Override
     public boolean delete(String id) {
-        if (mem.stream().equals(id)) {
-            return mem.remove(id);
+        if (findById(id) != null) {
+            mem.remove(id);
+            return true;
         }
         return false;
     }
