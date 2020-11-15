@@ -12,19 +12,12 @@ public class UserStore<User extends Base> implements Store<User> {
 
     @Override
     public boolean replace(String id, User model) {
-        if (model.getId().equals(id)){
-            delete(id);
-        }
-        return  false;
+        return store.replace(id, model);
     }
 
     @Override
     public boolean delete(String id) {
-        if (store.findById(id) == null) {
-            return false;
-        }else {
-            return true;
-        }
+       return store.delete(id);
     }
 
     @Override
