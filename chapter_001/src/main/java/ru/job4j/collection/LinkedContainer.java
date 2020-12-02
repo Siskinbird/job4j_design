@@ -5,22 +5,23 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-public class LinkedContainer <E extends Node> implements Iterable<E> {
+public class LinkedContainer<E extends Node> implements Iterable<E> {
     private int size = 0;
-    transient Node<E> first;
-    transient Node<E> last;
+    private Node<E> first;
+    private Node<E> last;
     private int modCount = 0;
 
     void addLast(E value) {
-    final Node<E> lastNode = last;
-    final Node<E> newNode = new Node<E>(lastNode, value, null);
-    last = newNode;
-    if (lastNode == null)
-        first = newNode;
-    else
-        lastNode.next = newNode;
-    size++;
-    modCount++;
+        final Node<E> lastNode = last;
+        final Node<E> newNode = new Node<E>(lastNode, value, null);
+        last = newNode;
+        if (lastNode == null) {
+            first = newNode;
+        } else {
+            lastNode.next = newNode;
+        size++;
+        modCount++;
+    }
 }
         public E get(int index) {
             Objects.checkIndex(index, size);
