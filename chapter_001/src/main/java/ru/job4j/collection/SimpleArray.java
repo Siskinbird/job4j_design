@@ -77,7 +77,7 @@ public class SimpleArray<T> implements Iterable<T> {
                 if (currentModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                if(!hasNext()){
+                if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
                 return container[cursor++];

@@ -41,7 +41,7 @@ public class SimpleArrayTest {
         array.get(1);
     }
     @Test
-    public void whenNeedGrow(){
+    public void whenNeedGrow() {
        SimpleArray<String> array = new SimpleArray<>();
        array.add("I love programming");
         array.add("I love programming");
