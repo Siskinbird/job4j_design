@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public final class MemStore<T extends Base> implements Store<T>{
-
+public final class MemStore<T extends Base> implements Store<T> {
     private final List<T> mem = new ArrayList<>();
 
         private int indexOf(String id) {
@@ -21,8 +20,9 @@ public final class MemStore<T extends Base> implements Store<T>{
 
     @Override
     public boolean replace(String id, T model) {
-        if (findById(id) != null) {
-            mem.set(indexOf(id), model);
+            int i = indexOf(id);
+            if (i != -1) {
+            mem.set(i , model);
             return true;
         }
         return false;
@@ -39,7 +39,7 @@ public final class MemStore<T extends Base> implements Store<T>{
 
     @Override
     public T findById(String id) {
-        return (T) mem.stream()
+        return  mem.stream()
                 .filter(i -> i.equals(id))
                 .findFirst().orElse(null);
     }
