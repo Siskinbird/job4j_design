@@ -22,7 +22,7 @@ public final class MemStore<T extends Base> implements Store<T> {
     public boolean replace(String id, T model) {
             int i = indexOf(id);
             if (i != -1) {
-            mem.set(i , model);
+            mem.set(i, model);
             return true;
         }
         return false;
@@ -30,8 +30,9 @@ public final class MemStore<T extends Base> implements Store<T> {
 
     @Override
     public boolean delete(String id) {
-        if (findById(id) != null) {
-            mem.remove(id);
+            int i = indexOf(id);
+            if (i != -1) {
+            mem.remove(i);
             return true;
         }
         return false;
