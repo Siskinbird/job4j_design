@@ -6,7 +6,9 @@ import java.util.NoSuchElementException;
 public class ForwardLinked<T> implements Iterable<T> {
     private Node<T> head;
 
-
+    /**
+     * Adds an item to the list
+     */
     public void add(T value) {
         Node<T> node = new Node<>(value, null);
         if (head == null) {
@@ -20,6 +22,18 @@ public class ForwardLinked<T> implements Iterable<T> {
         tail.next = node;
     }
 
+    /**
+     * Check for emptiness
+     * @return - result
+     */
+    public boolean isEmpty() {
+        return (head == null);
+    }
+
+    /**
+     * Removes the first element of the list
+     * @return value
+     */
     public T deleteFirst() {
         if (head != null) {
             final T value = head.value;
@@ -32,6 +46,46 @@ public class ForwardLinked<T> implements Iterable<T> {
         }
     }
 
+    /**
+     * Removes the last element of the list
+     * @return value
+     */
+    public T deleteLast() {
+        Node<T> prev = head;
+        Node<T> next = head;
+        if (isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        while (next.next != null) {
+            prev = next;
+            next = next.next;
+        }
+        if (next == head) {
+            head = null;
+        }
+        prev.next = null;
+        return next.value;
+    }
+
+    /**
+     * Node data model
+     * @param <T>
+     */
+
+    private static class Node<T> {
+        T value;
+        Node<T> next;
+
+        public Node(T value, Node<T> next) {
+            this.value = value;
+            this.next = next;
+        }
+    }
+
+    /**
+     * Iterator
+     * @return next element
+     */
     @Override
     public Iterator<T> iterator() {
         return new Iterator<>() {
@@ -52,15 +106,5 @@ public class ForwardLinked<T> implements Iterable<T> {
                 return value;
             }
         };
-    }
-
-    private static class Node<T> {
-        T value;
-        Node<T> next;
-
-        public Node(T value, Node<T> next) {
-            this.value = value;
-            this.next = next;
-        }
     }
 }
