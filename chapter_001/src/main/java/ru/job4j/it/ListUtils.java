@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 /**
  * public class ListUtils
  * @author Dmitry Chizhov (dimachig@gmail.com)
- * @since 25.12.2020
- * @version 1.02
+ * @since 26.12.2020
+ * @version 1.03
  */
 public class ListUtils {
     /**
@@ -60,7 +60,13 @@ public class ListUtils {
      */
 
     public static <T> List<T> removeIf(List<T> list, Predicate<T> filter) {
-        return list.stream().filter(filter).collect(Collectors.toList());
+        ListIterator<T> it = list.listIterator();
+        while (it.hasNext()){
+            if (filter.test(it.next())){
+                it.remove();
+            }
+        }
+        return list;
     }
 
     /**
@@ -75,10 +81,9 @@ public class ListUtils {
     public static <T> List<T> replaceIf(List<T> list, Predicate<T> filter, T value) {
         ListIterator<T> it = list.listIterator();
         while (it.hasNext()) {
-            if (filter.test(list.get(it.nextIndex()))) {
-                list.set(it.nextIndex(), value);
+            if (filter.test(it.next())) {
+                it.set(value);
             }
-            it.next();
         }
         return list;
     }
