@@ -7,8 +7,8 @@ import java.util.Objects;
  * A class SimpleSet<T> - implements a collection without duplicates
  * @param <T>
  * @author Dmitry Chizhov (dimachig@gmail.com)
- * @since 17.12.2020
- * @version 1.00
+ * @since 18.12.2020
+ * @version 1.01
  */
 
 public class SimpleSet<T> implements Iterable<T> {
@@ -38,13 +38,24 @@ public class SimpleSet<T> implements Iterable<T> {
     /**
      * The method add() - Adds the original element to the collection
      * @param t - Item to add
+     * @return - Returns true if the original item is added, if the item is in the collection returns false
      */
 
-    public void add(T t) {
+    public boolean add(T t) {
         if (!isContains(t) || size == 0) {
             jstArr.add(t);
             size++;
+            return true;
         }
+        return false;
+    }
+
+    /**
+     * Method getSize()
+     * @return - actual size of list
+     */
+    public int getSize() {
+        return size;
     }
 
     /**
