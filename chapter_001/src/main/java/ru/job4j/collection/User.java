@@ -8,10 +8,17 @@ public class User {
     private int age;
     private Calendar birthday;
 
-    public User(String name, int age, Calendar birthday){
+    public User(String name, int age, Calendar birthday) {
         this.name = name;
         this.age = age;
         this.birthday = birthday;
     }
 
+    @Override
+    public String toString() {
+        return "User [User name =" + name
+                + ", User age =" + age
+                + ", User birthday" + birthday
+                + "]";
+    }
 }
