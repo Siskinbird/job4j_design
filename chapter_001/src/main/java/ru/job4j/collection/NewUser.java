@@ -3,6 +3,9 @@ package ru.job4j.collection;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+
+import static java.util.Objects.hash;
 
 public class NewUser {
     public static void main(String[] args) {
@@ -10,12 +13,18 @@ public class NewUser {
         final Calendar instance = Calendar.getInstance();
         instance.clear();
         instance.set(1986, Calendar.OCTOBER, 31);
-        users.put(new User("Boris", 34, instance), null);
-        users.put(new User("Boris", 34, instance), null);
-        for (Map.Entry<User, Object> entry : users.entrySet()) {
-            User data = entry.getKey();
-            System.out.println(data.toString());
+        User first = new User("Boris", 34, instance);
+        User second = new User("Boris", 34, instance);
+        users.put(first, null);
+        users.put(second, null);
+        if (Objects.equals(first, second)){
+            for (Map.Entry<User, Object> entry : users.entrySet()) {
+                User data = entry.getKey();
+                System.out.println(hash(data.toString().hashCode()));
+            }
         }
+        System.out.println("This Is Collisiooooooooooooooooooooooooooon!");
+
     }
 }
 
