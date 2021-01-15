@@ -1,46 +1,93 @@
 package ru.job4j.collection;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.*;
 
-public class HazardTable <K, V> implements Iterable<K> {
+/**
+ * @author Dmitry Chizhov (dimachig@gmail.com)
+ * @version 1.99
+ * @since 27.12.20
+ * @param <K> - Key
+ * @param <V> - Value
+ */
+
+public class HazardTable<K, V> implements Iterable<K> {
     private int size = 0;
-    private final int capacity = 16;
-    private HashNode<K, V>[] table = new HashNode[capacity];
+    private final int defaultCapacity = 16;
+    private final double loadFactor = 0.75D;
+    private MyNode<K, V>[] table = new MyNode[defaultCapacity];
+    private final int fullness = (int) (table.length * loadFactor);
+    private int modCount;
+
+    /**
+     * hash function
+     */
+
+    static int hash(int h) {
+        h ^= (h >>> 20) ^ (h >>> 12);
+        return h ^ (h >>> 7) ^ (h >>> 4);
+    }
 
     /**
      * Method insert() adding a key-value pair to a table
+     *
      * @param key   - Key
      * @param value - Value
      * @return - Operation Result
      */
 
     boolean insert(K key, V value) {
-        boolean rst = true;
-        for (int i = 0; i < size; i++) {
-            if (table[i].getKey().equals(key)) {
-                rst = false;
-                break;
+        int i = getBucketIndex(key);
+        if (table[i] == null) {
+            table[i] = new MyNode<>(hash(key.hashCode()), key, value);
+            size++;
+            modCount++;
+            return true;
+        }
+        if (size >= fullness) {
+            table = resize();
+            modCount++;
+            i = indexFor(hash(key.hashCode()), table.length);
+            if (table[i] != null) {
+                return false;
             }
-
         }
-        if (rst) {
-            grow();
-            table[size++] = new HashNode<>(key, value);
-        }
-        return rst;
+        return false;
     }
 
     /**
-     * Method grow() - grows the table as it fills
+     * Method resize() - grows the table as it fills
      */
 
-    private void grow() {
-        if (size == table.length) {
-            int newSize = table.length * 2;
-            table = Arrays.copyOf(table, newSize);
+    private MyNode<K, V>[] resize() {
+        int index;
+        MyNode<K, V>[] newTable = new MyNode[(int) (defaultCapacity * 6)];
+        MyNode<K, V>[] oldTable = table;
+        for (MyNode<K, V> old : oldTable) {
+            index = old.hash % (newTable.length - 1);
+            if (newTable[index] == null && old.key != null) {
+                newTable[index] = old;
+                return newTable;
+            }
         }
+        return null;
+    }
+
+    /**
+     * Index for hash
+     */
+
+    static int indexFor(int h, int length) {
+        return h & (length - 1);
+    }
+
+    /**
+     * Bucket index
+     * @return index of bucket
+     */
+
+    private int getBucketIndex(K key) {
+        int hash = hash(key.hashCode());
+        return indexFor(hash, table.length);
     }
 
     /**
@@ -50,14 +97,7 @@ public class HazardTable <K, V> implements Iterable<K> {
      */
 
     public V get(K key) {
-        for (int i = 0; i < size; i++) {
-            if (table[i] != null) {
-                if (table[i].getKey().equals(key)) {
-                    return table[i].getValue();
-                }
-            }
-        }
-        return null;
+        return table[getBucketIndex(key)].getValue();
     }
 
     /**
@@ -67,12 +107,12 @@ public class HazardTable <K, V> implements Iterable<K> {
      */
 
     public boolean delete(K key) {
-        for (int i = 0; i < size; i++) {
-            if (table[i] != null) {
-                if (table[i].getKey().equals(key)) {
-                    table[i] = null;
-                    return true;
-                }
+        int index = getBucketIndex(key);
+        if (table[index] != null) {
+            if (table[index].getKey().equals(key)) {
+                table[index] = null;
+                size--;
+                return true;
             }
         }
         return false;
@@ -81,20 +121,82 @@ public class HazardTable <K, V> implements Iterable<K> {
     @Override
     public Iterator<K> iterator() {
         return new Iterator<>() {
+
+            int cursor;
+            final int currentModCount = modCount;
+            int count;
+
             @Override
             public boolean hasNext() {
-                return size < table.length;
+                return count < size;
             }
 
             @Override
-            public K next() {
+            public K next() throws NoSuchElementException, ConcurrentModificationException {
+                if (currentModCount != modCount) {
+                    throw new ConcurrentModificationException();
+                }
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                return table[size++].getKey();
+                while (table[cursor] == null) {
+                    cursor++;
+                    }
+               if (table[cursor] != null) {
+                   count++;
+                   return table[cursor++].getKey();
+                }
+             return  iterator().next();
             }
         };
+
+    }
+
+    /**
+     *
+     * @param <K>
+     * @param <V>
+     */
+
+    static class MyNode<K, V> {
+        private final int hash;
+        private final K key;
+        private final V value;
+
+        public MyNode(int hash, K key, V value) {
+            this.hash = hash;
+            this.key = key;
+            this.value = value;
+
+        }
+
+        public K getKey() {
+            return key;
+        }
+
+        public V getValue() {
+            return value;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            MyNode<?, ?> myNode = (MyNode<?, ?>) o;
+            return hash == myNode.hash && Objects.equals(key, myNode.key) && Objects.equals(value, myNode.value);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(hash, key, value);
+        }
     }
 }
+
+
 
 
