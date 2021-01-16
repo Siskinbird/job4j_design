@@ -60,9 +60,10 @@ public class ListUtils {
      */
 
     public static <T> List<T> removeIf(List<T> list, Predicate<T> filter) {
-        ListIterator<T> it = list.listIterator();
-        while (it.hasNext()){
-            if (filter.test(it.next())){
+        ListIterator<T> it;
+        it = list.listIterator();
+        while (it.hasNext()) {
+            if (filter.test(it.next())) {
                 it.remove();
             }
         }

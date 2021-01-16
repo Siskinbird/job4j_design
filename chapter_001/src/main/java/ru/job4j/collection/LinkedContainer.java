@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-public class LinkedContainer<E extends Node> implements Iterable<E> {
+public class LinkedContainer<E extends Node<E>> implements Iterable<E> {
     private int size = 0;
     private Node<E> first;
     private Node<E> last;
@@ -13,7 +13,7 @@ public class LinkedContainer<E extends Node> implements Iterable<E> {
 
     void addLast(E value) {
         final Node<E> lastNode = last;
-        final Node<E> newNode = new Node<E>(lastNode, value, null);
+        final Node<E> newNode = new Node<>(lastNode, value, null);
         last = newNode;
         if (lastNode == null) {
             first = newNode;
@@ -23,6 +23,7 @@ public class LinkedContainer<E extends Node> implements Iterable<E> {
         modCount++;
     }
 }
+
         public E get(int index) {
             Objects.checkIndex(index, size);
             Node<E> rsl = first;
@@ -32,15 +33,13 @@ public class LinkedContainer<E extends Node> implements Iterable<E> {
             return rsl.item;
         }
 
-
     @Override
     public Iterator<E> iterator() {
-        return new Iterator<E>() {
+        return new Iterator<>() {
 
             private Node<E> current = first;
             private int nextIndex;
             private final int expectedModCount = modCount;
-
 
             @Override
             public boolean hasNext() {

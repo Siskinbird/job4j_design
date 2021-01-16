@@ -14,7 +14,6 @@ public class SimpleArray<T> implements Iterable<T> {
     private int capacity = 10;
     private T[] array = (T[]) new Object[capacity];
 
-
     /**
      * The method implements the ability to obtain data by index
      * @param index - Cell number
@@ -55,7 +54,6 @@ public class SimpleArray<T> implements Iterable<T> {
      * @throws IndexOutOfBoundsException - The desired index is not in the array
      */
 
-
     public void remove(int index) throws IndexOutOfBoundsException {
         Objects.checkIndex(index, this.index);
         System.arraycopy(array, index + 1, array, index, capacity - this.index--);
@@ -71,7 +69,8 @@ public class SimpleArray<T> implements Iterable<T> {
     public Iterator<T> iterator() {
         return iterator;
     }
-    Iterator<T> iterator = new Iterator<T>() {
+
+    Iterator<T> iterator = new Iterator<>() {
         int position = 0;
 
         @Override

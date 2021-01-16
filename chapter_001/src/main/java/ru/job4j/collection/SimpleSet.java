@@ -15,7 +15,6 @@ public class SimpleSet<T> implements Iterable<T> {
     private final SimpleArray<T> jstArr;
     private int size;
 
-
     public SimpleSet() {
         this.jstArr = new SimpleArray<>();
         this.size = 0;

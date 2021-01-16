@@ -28,12 +28,10 @@ public class BinaryCheckHash {
         System.out.println(binary(hash(420 >>> 4)));
 
         System.out.println(binary(hash(Integer.MAX_VALUE)));
-        System.out.println(binary(hash( Integer.MAX_VALUE >>> 16)));
+        System.out.println(binary(hash(Integer.MAX_VALUE >>> 16)));
 
         System.out.println(binary(hash(123456789)));
         System.out.println(binary(hash(123456789 >>> 16)));
         System.out.println(binary(hash(123456789 ^ (123456789 >>> 16))));
-
-
     }
 }

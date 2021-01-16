@@ -36,24 +36,28 @@ public class ListUtilsTest {
         List<Integer> input = new ArrayList<>(Arrays.asList(1, 2, 3, 5));
         ListUtils.addAfter(input, 5, 6);
     }
+
     @Test
     public void removeIf() {
         List<Integer> input = new ArrayList<>(Arrays.asList(1, 2, 3, 8, 111, 749, 14, 42, 7));
         List<Integer> output = ListUtils.removeIf(input, i -> i >= 7);
-        assertThat(Arrays.asList(8, 111, 749, 14, 42, 7), Is.is(output));
+        assertThat(Arrays.asList(1, 2, 3), Is.is(output));
     }
+
     @Test
     public void replaceIf() {
         List<Integer> input = new ArrayList<>(Arrays.asList(1, 2, 3));
-        List<Integer> output = ListUtils.replaceIf(input, i -> i > 1 , 1);
+        List<Integer> output = ListUtils.replaceIf(input, i -> i > 1, 1);
         assertThat(Arrays.asList(1, 1, 1), Is.is(output));
     }
+
     @Test
     public void replaceIfBigListFibonaccisEdition() {
         List<Integer> input = new ArrayList<>(Arrays.asList(0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377));
-        List<Integer> output = ListUtils.replaceIf(input, i -> i >= 55 , 42);
+        List<Integer> output = ListUtils.replaceIf(input, i -> i >= 55, 42);
         assertThat(Arrays.asList(0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 42, 42, 42, 42, 42), Is.is(output));
     }
+
     @Test
     public void removeAll() {
         List<Integer> list = new ArrayList<>(Arrays.asList(1, 2, 3, 4));
@@ -61,6 +65,7 @@ public class ListUtilsTest {
         List<Integer> modified = ListUtils.removeAll(list, elements);
         assertThat(Arrays.asList(3, 4), Is.is(modified));
     }
+
     @Test
     public void removeAllFibonaccisEdition() {
         List<Integer> list = new ArrayList<>(Arrays.asList(0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377));

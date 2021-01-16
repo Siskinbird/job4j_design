@@ -40,6 +40,7 @@ public class SimpleArrayTest {
         array.add("first");
         array.get(1);
     }
+
     @Test
     public void whenNeedGrow() {
        SimpleArray<String> array = new SimpleArray<>();

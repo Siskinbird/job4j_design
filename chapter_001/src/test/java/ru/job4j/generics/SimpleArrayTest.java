@@ -45,7 +45,7 @@ public class SimpleArrayTest {
 
     @Test
     public void iteratorHasNextAndNext() {
-        SimpleArray array = new SimpleArray();
+        SimpleArray<String> array = new SimpleArray<>();
         array.add("zero");
         array.add("first");
         array.add("second");
@@ -60,7 +60,7 @@ public class SimpleArrayTest {
 
     @Test(expected = NoSuchElementException.class)
     public void whenNextFromEmpty() {
-        SimpleArray array = new SimpleArray();
+        SimpleArray<String> array = new SimpleArray<>();
         array.iterator().next();
     }
 }

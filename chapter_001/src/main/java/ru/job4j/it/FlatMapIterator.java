@@ -4,9 +4,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class FlatMapIterator <K> implements Iterator<K> {
+public class FlatMapIterator<K> implements Iterator<K> {
     private Iterator<K> keyIterator = Collections.emptyIterator();
-
 
     public FlatMapIterator(Iterator<K> keyIterator) {
         this.keyIterator = keyIterator;
