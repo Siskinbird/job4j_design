@@ -15,7 +15,7 @@ public class HazardTable<K, V> implements Iterable<K> {
     private final int defaultCapacity = 16;
     private final double loadFactor = 0.75D;
     private MyNode<K, V>[] table = new MyNode[defaultCapacity];
-    private final int fullness = (int) (table.length * loadFactor);
+
     private int modCount;
 
     /**
@@ -29,7 +29,6 @@ public class HazardTable<K, V> implements Iterable<K> {
 
     /**
      * Method insert() adding a key-value pair to a table
-     *
      * @param key   - Key
      * @param value - Value
      * @return - Operation Result
@@ -43,7 +42,7 @@ public class HazardTable<K, V> implements Iterable<K> {
             modCount++;
             return true;
         }
-        if (size >= fullness) {
+        if (size >= fullness()) {
             table = resize();
             modCount++;
             i = indexFor(hash(key.hashCode()), table.length);
@@ -86,8 +85,19 @@ public class HazardTable<K, V> implements Iterable<K> {
      */
 
     private int getBucketIndex(K key) {
-        int hash = hash(key.hashCode());
-        return indexFor(hash, table.length);
+        if (key != null) {
+            int hash = hash(key.hashCode());
+            return indexFor(hash, table.length);
+        }
+        return 0;
+    }
+
+    /**
+     * Fullness
+     */
+
+    private int fullness() {
+        return (int) (table.length * loadFactor);
     }
 
     /**
@@ -97,7 +107,12 @@ public class HazardTable<K, V> implements Iterable<K> {
      */
 
     public V get(K key) {
-        return table[getBucketIndex(key)].getValue();
+        if (table[getBucketIndex(key)] != null) {
+            if (table[getBucketIndex(key)].getKey().equals(key)) {
+                return table[getBucketIndex(key)].getValue();
+            }
+        }
+        return null;
     }
 
     /**
@@ -107,13 +122,12 @@ public class HazardTable<K, V> implements Iterable<K> {
      */
 
     public boolean delete(K key) {
-        int index = getBucketIndex(key);
-        if (table[index] != null) {
-            if (table[index].getKey().equals(key)) {
-                table[index] = null;
+
+        if (table[getBucketIndex(key)] != null && table[getBucketIndex(key)].getKey().equals(key)) {
+                table[getBucketIndex(key)] = null;
                 size--;
+                modCount++;
                 return true;
-            }
         }
         return false;
     }
@@ -121,7 +135,6 @@ public class HazardTable<K, V> implements Iterable<K> {
     @Override
     public Iterator<K> iterator() {
         return new Iterator<>() {
-
             int cursor;
             final int currentModCount = modCount;
             int count;
@@ -153,7 +166,7 @@ public class HazardTable<K, V> implements Iterable<K> {
     }
 
     /**
-     *
+     * MyNode
      * @param <K>
      * @param <V>
      */

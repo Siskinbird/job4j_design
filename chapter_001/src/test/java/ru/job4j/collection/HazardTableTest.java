@@ -35,6 +35,16 @@ public class HazardTableTest {
     }
 
     @Test
+    public  void tryToGetNull() {
+        HazardTable<String, String> hazardTable = new HazardTable<>();
+        hazardTable.insert("COVID-19", "You will definitely survive");
+        hazardTable.insert("H1N1", "You will survive");
+        hazardTable.insert("HIV", "You will die");
+        assertNull(hazardTable.get("NULL"));
+
+    }
+
+    @Test
         public void tryToDelete() {
             HazardTable<String, String> hazardTable = new HazardTable<>();
             hazardTable.insert("COVID-19", "You will definitely survive");
