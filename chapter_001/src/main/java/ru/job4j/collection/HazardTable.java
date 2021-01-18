@@ -36,20 +36,18 @@ public class HazardTable<K, V> implements Iterable<K> {
      */
 
     boolean insert(K key, V value) {
-        int i = getBucketIndex(key);
-        if (table[i] == null) {
-            table[i] = new MyNode<>(hash(key.hashCode()), key, value);
-            size++;
-            modCount++;
-            return true;
-        }
         if (size >= fullness()) {
             table = resize();
-            modCount++;
-            i = indexFor(hash(key.hashCode()), table.length);
-            if (table[i] != null) {
-                return false;
+        }
+        if (size < fullness()) {
+            int i = getBucketIndex(key);
+            if (table[i] == null) {
+                table[i] = new MyNode<>(hash(key.hashCode()), key, value);
+                size++;
+                modCount++;
+                return true;
             }
+            return false;
         }
         return false;
     }
