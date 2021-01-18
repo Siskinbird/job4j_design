@@ -3,6 +3,7 @@ package ru.job4j.collection;
 import java.util.*;
 
 /**
+ * Own implementation of the internal work of the associative array HashTable
  * @author Dmitry Chizhov (dimachig@gmail.com)
  * @version 1.99
  * @since 27.12.20
@@ -135,9 +136,9 @@ public class HazardTable<K, V> implements Iterable<K> {
     @Override
     public Iterator<K> iterator() {
         return new Iterator<>() {
-            int cursor;
             final int currentModCount = modCount;
             int count;
+            int cursor;
 
             @Override
             public boolean hasNext() {
@@ -154,15 +155,11 @@ public class HazardTable<K, V> implements Iterable<K> {
                 }
                 while (table[cursor] == null) {
                     cursor++;
-                    }
-               if (table[cursor] != null) {
-                   count++;
-                   return table[cursor++].getKey();
                 }
-             return  iterator().next();
+                count++;
+                return table[cursor++].getKey();
             }
         };
-
     }
 
     /**
@@ -209,6 +206,7 @@ public class HazardTable<K, V> implements Iterable<K> {
         }
     }
 }
+
 
 
 
