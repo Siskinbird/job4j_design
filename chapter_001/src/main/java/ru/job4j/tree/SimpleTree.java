@@ -17,5 +17,10 @@ public interface SimpleTree<E> {
         public Node(E value) {
             this.value = value;
         }
+
+        public List<Node<E>> getChildren() {
+            return children;
+        }
     }
+
 }

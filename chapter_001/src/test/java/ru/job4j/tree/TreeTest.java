@@ -111,15 +111,28 @@ public class TreeTest {
     @Test
     public void whenFindEquals() {
         Tree<Integer> tree = new Tree<>(1);
-        tree.add(1, 2);
+        assertThat(tree.add(1, 2),
+                is(true)
+        );
         assertThat(tree.add(1, 3),
-                is(true));
+                is(true)
+        );
         assertThat(tree.add(1, 4),
-                is(true));
+                is(true)
+        );
         assertThat(tree.add(1, 3),
                 is(false)
         );
         assertThat(tree.add(1, 4),
+                is(false)
+        );
+        assertThat(tree.add(2, 7),
+                is(true)
+        );
+        assertThat(tree.add(2, 9),
+                is(true)
+        );
+        assertThat(tree.add(2, 9),
                 is(false)
         );
     }
