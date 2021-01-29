@@ -1,6 +1,7 @@
 package ru.job4j.tree;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * Class for exploring tree data structure
@@ -23,9 +24,10 @@ class Tree<E> implements SimpleTree<E> {
 
     /**
      * Method add() for adding a child to the parent node
+     *
      * @param parent - parent node
-     * @param child - child node
-     * @return  - adding result
+     * @param child  - child node
+     * @return - adding result
      */
 
     @Override
@@ -45,40 +47,38 @@ class Tree<E> implements SimpleTree<E> {
 
     /**
      * is Binary tree?
+     *
      * @return result
      */
 
-    public boolean isBinary() {
-        boolean rsl = false;
-        Queue<Node<E>> data = new LinkedList<>();
-        data.offer(this.root);
-        while (!data.isEmpty()) {
-            Node<E> el = data.poll();
-            if (el.children.size() <= 2) {
-                rsl = true;
-            } else {
-                rsl = false;
-                break;
-            }
-            data.addAll(el.children);
-        }
-        return rsl;
+    public Optional<Node<E>> isBinary() {
+        return findByPredicate(e -> e.children.size() > 2);
     }
 
     /**
-     *The method findBy() implements search by value in the tree data structure.
+     * The method findBy() implements search by value in the tree data structure.
      * @param value - input parameter
      * @return - result
      */
 
     @Override
     public Optional<Node<E>> findBy(E value) {
+       return findByPredicate(x -> x.value.equals(value));
+    }
+
+    /**
+     * The method findByPredicate() search for a value by a given function
+     * @param condition - predicate
+     * @return - result
+     */
+
+    public Optional<Node<E>> findByPredicate(Predicate<Node<E>> condition) {
         Optional<Node<E>> rsl = Optional.empty();
         Queue<Node<E>> data = new LinkedList<>();
         data.offer(this.root);
         while (!data.isEmpty()) {
             Node<E> el = data.poll();
-            if (el.value.equals(value)) {
+            if (condition.test(el)) {
                 rsl = Optional.of(el);
                 break;
             }
