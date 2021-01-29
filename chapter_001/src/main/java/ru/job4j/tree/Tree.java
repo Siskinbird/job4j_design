@@ -51,8 +51,8 @@ class Tree<E> implements SimpleTree<E> {
      * @return result
      */
 
-    public Optional<Node<E>> isBinary() {
-        return findByPredicate(e -> e.children.size() > 2);
+    public boolean isBinary() {
+        return findByPredicate(e -> e.children.size() > 2).isEmpty();
     }
 
     /**

@@ -145,7 +145,8 @@ public class TreeTest {
         tree.add(4, 5);
         tree.add(5, 6);
         assertThat(tree.findBy(42).isPresent(),
-                is(true));
+                is(true)
+        );
     }
 
     @Test
@@ -157,7 +158,37 @@ public class TreeTest {
         tree.add(4, 5);
         tree.add(5, 6);
         assertThat(tree.findBy(42).isPresent(),
-                is(false));
+                is(false)
+        );
+    }
+
+    @Test
+    public void isBinary() {
+        Tree<Integer> tree = new Tree<>(16);
+        tree.add(10, 9);
+        tree.add(10, 11);
+        tree.add(42, 39);
+        tree.add(42, 48);
+        assertThat(tree.isBinary(),
+                is(true)
+        );
+    }
+
+    @Test
+    public void noBinary() {
+        Tree<Integer> tree = new Tree<>(16);
+        tree.add(16, 9);
+        tree.add(16, 10);
+        tree.add(16, 11);
+        tree.add(16, 48);
+        tree.add(16, 44);
+        tree.add(16, 10);
+        tree.add(16, 19);
+        tree.add(10, 49);
+        assertThat(
+                tree.isBinary(),
+                is(false)
+        );
     }
 
 }
