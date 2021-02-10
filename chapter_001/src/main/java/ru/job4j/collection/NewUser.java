@@ -3,8 +3,6 @@ package ru.job4j.collection;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-
 import static java.util.Objects.hash;
 
 public class NewUser {
