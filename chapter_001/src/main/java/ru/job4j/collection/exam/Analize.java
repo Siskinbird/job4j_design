@@ -5,28 +5,41 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class Analise {
-    public Info diff(List<User> previous, List<User> current) {
-        int changed = 0;
-        int deleted = 0;
-        int added = 0;
-        int prevSize = previous.size();
-        int currSize = current.size();
-        if (prevSize < currSize) {
-            deleted = prevSize - currSize;
-        } else {
-            added = currSize - prevSize;
-        }
+/**
+ * Analyze - The class implements displaying statistics on a collection
+ * @author Dmitry Chizhov (dimachig@gmail.com)
+ * @version 1.33
+ * @since 13.02.21
+ */
+
+public class Analize {
+
+    /**
+     * Method diff presents the difference between collections
+     * @param previous first collection
+     * @param current second collection
+     * @return Information about changing collections
+     */
+
+    public static Info diff(List<User> previous, List<User> current) {
+        Info info = new Info();
         Map<Integer, String> currentMap = current.stream().collect(Collectors.toMap(User::getId, User::getName));
-        for (Map.Entry<Integer, String> check : currentMap.entrySet()) {
-           for (User prev : previous) {
-               if (!prev.getName().equals(check.getValue()) && prev.getId() == check.getKey()) {
-                   changed++;
-               }
-           }
+        for (User prev : previous) {
+            if (!currentMap.containsKey(prev.getId())) {
+                info.deleted++;
+                info.changed--;
+            }
+            if (!currentMap.containsValue(prev.getName())) {
+                info.changed++;
+            }
+            info.added = current.size() - previous.size() + info.deleted;
         }
-        return new Info(changed, deleted, added);
+        return info;
     }
+
+    /**
+     * User data model
+     */
 
     public static class User {
         public User(int id, String name) {
@@ -63,10 +76,14 @@ public class Analise {
         }
     }
 
-    public static class Info {
-        public Info(int changed, int deleted, int added) {
-        }
-    }
+    /**
+     * Info data model
+     */
 
+    public static class Info {
+        int added;
+        int changed;
+        int deleted;
+    }
 }
 
