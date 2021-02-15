@@ -11,6 +11,8 @@ import java.util.*;
  * @param <V> - Value
  */
 
+@SuppressWarnings({"unchecked"})
+
 public class HazardTable<K, V> implements Iterable<K> {
     private int size = 0;
     private final int defaultCapacity = 16;

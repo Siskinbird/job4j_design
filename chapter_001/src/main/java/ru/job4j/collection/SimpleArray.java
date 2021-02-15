@@ -8,6 +8,7 @@ import java.util.*;
  * @since 13.11.20
  * @param <T>
  */
+@SuppressWarnings({"unchecked"})
 public class SimpleArray<T> implements Iterable<T> {
 
     private T[] container;
@@ -47,17 +48,15 @@ public class SimpleArray<T> implements Iterable<T> {
 
     /**
      * The method increases the size of the array when filled
-     * @return - New larger array
      */
-    public Object[] grow() {
+    public void grow() {
         int newSize = container.length * 2;
-        return container = Arrays.copyOf(container, newSize);
+        container = Arrays.copyOf(container, newSize);
     }
 
     /**
      * An iterator for working with an array
      * @return - iterator<T>
-     * @throws - NoSuchElementException, ConcurrentModificationException
      */
 
     @Override

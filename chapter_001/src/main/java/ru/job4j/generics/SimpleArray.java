@@ -9,10 +9,11 @@ import java.util.*;
  * @since 05.11.20
  * @param <T>
  */
+@SuppressWarnings({"unchecked"})
 public class SimpleArray<T> implements Iterable<T> {
     private int index;
-    private int capacity = 10;
-    private T[] array = (T[]) new Object[capacity];
+    private final int capacity = 10;
+    private final T[] array = (T[]) new Object[capacity];
 
     /**
      * The method implements the ability to obtain data by index
@@ -63,7 +64,6 @@ public class SimpleArray<T> implements Iterable<T> {
     /**
      * An iterator for working with an array
      * @return - iterator<T>
-     * @throws - NoSuchElementException
      */
 
     public Iterator<T> iterator() {
