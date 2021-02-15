@@ -22,20 +22,22 @@ public class Analize {
      */
 
     public static Info diff(List<User> previous, List<User> current) {
+        Map<Integer, String> previousMap = previous
+                .stream().collect(Collectors.toMap(User::getId, User::getName));
         Info info = new Info();
-        Map<Integer, String> currentMap = current.stream().collect(Collectors.toMap(User::getId, User::getName));
-        for (User prev : previous) {
-            if (!currentMap.containsKey(prev.getId())) {
-                info.deleted++;
-                info.changed--;
+        for (User user : current) {
+            String name = previousMap.remove(user.getId());
+            if (name == null) {
+                info.added++;
             }
-            if (!currentMap.containsValue(prev.getName())) {
+            if (name != null && !name.equals(user.name)) {
                 info.changed++;
             }
-            info.added = current.size() - previous.size() + info.deleted;
         }
+        info.deleted = previous.size() + info.added - current.size();
+
         return info;
-    }
+        }
 
     /**
      * User data model

@@ -103,4 +103,36 @@ public class AnalizeTest {
         assertThat(result.deleted, is(3));
     }
 
+    @Test
+    public void whenMoreAdded() {
+        Analize.User u1 = new Analize.User(1, "A");
+        Analize.User u2 = new Analize.User(2, "B");
+        Analize.User u3 = new Analize.User(3, "C");
+        Analize.User u4 = new Analize.User(4, "D");
+        Analize.User u5 = new Analize.User(5, "E");
+        Analize.User u6 = new Analize.User(6, "F");
+        List<Analize.User> previous = List.of(u1);
+        List<Analize.User> current = List.of(u1, u2, u3, u4, u5, u6);
+        Analize.Info result = Analize.diff(previous, current);
+        assertThat(result.added, is(5));
+        assertThat(result.changed, is(0));
+        assertThat(result.deleted, is(0));
+    }
+
+    @Test
+    public void whenMoreDeleted() {
+        Analize.User u1 = new Analize.User(1, "A");
+        Analize.User u2 = new Analize.User(2, "B");
+        Analize.User u3 = new Analize.User(3, "C");
+        Analize.User u4 = new Analize.User(4, "D");
+        Analize.User u5 = new Analize.User(5, "E");
+        Analize.User u6 = new Analize.User(6, "F");
+        List<Analize.User> current = List.of(u1);
+        List<Analize.User> previous = List.of(u1, u2, u3, u4, u5, u6);
+        Analize.Info result = Analize.diff(previous, current);
+        assertThat(result.added, is(0));
+        assertThat(result.changed, is(0));
+        assertThat(result.deleted, is(5));
+    }
+
 }
