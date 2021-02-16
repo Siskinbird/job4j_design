@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 
 public class ReadFile {
     public static void main(String[] args) {
-        try (FileInputStream in = new FileInputStream("C:\\Projects\\job4j_design\\chapter_002\\src\\main\\java\\io\\files\\input.txt")) {
+        try (FileInputStream in = new FileInputStream("./io-data/input.txt")) {
             StringBuilder text = new StringBuilder();
             int read;
             while ((read = in.read()) != -1) {

@@ -1,17 +1,27 @@
 package io;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 
 public class EvenNumberFile {
-    public static void main(String[] args) throws IOException {
-        try (FileInputStream in = new FileInputStream("C:\\Projects\\job4j_design\\chapter_002\\src\\main\\java\\io\\files\\even.txt")) {
+
+    public static void main(String[] args) {
+        try (FileInputStream in = new FileInputStream("./io-data/even.txt")) {
+            StringBuilder text = new StringBuilder();
             int read;
             while ((read = in.read()) != -1) {
-                if (Character.getNumericValue(read) % 2 == 0) {
-                    System.out.println(Character.getNumericValue(read) + " - Even");
-                }
+                text.append((char) read);
             }
+                String[] lines = text.toString().split(System.lineSeparator());
+                for (String line : lines) {
+                    int num = Integer.parseInt(line);
+                    if (num % 2 == 0) {
+                        System.out.println(num + " - Even");
+                    } else {
+                        System.out.println(num + " - noEven");
+                    }
+                }
+            } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
