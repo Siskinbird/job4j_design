@@ -24,8 +24,8 @@ public class LogFilter {
                         new FileOutputStream(file)
         ))) {
            for (String s : log) {
-               out.write(s);
-               out.write("\n");
+               out.print(s);
+
            }
         }
     }
