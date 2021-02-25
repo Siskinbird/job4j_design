@@ -1,6 +1,8 @@
 package io;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class Analizy - analyzes server availability
@@ -17,7 +19,8 @@ public class Analizy {
      * @param target - Processed data
      */
 
-    public void unavailable(String source, String target) {
+    public static void unavailable(String source, String target) {
+        List<String> rst = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(source));
             PrintWriter writer = new PrintWriter(new BufferedOutputStream(new FileOutputStream(target)))) {
                 String serverDown = null;
@@ -26,12 +29,15 @@ public class Analizy {
                     if (serverDown == null && (status.startsWith("400") || status.startsWith("500"))) {
                         writer.println(status.split(" ")[1] + " server down");
                         serverDown = status;
+                        rst.add(status);
                     } else if (serverDown != null && (!status.startsWith("400") || !status.startsWith("500"))) {
                         writer.println(status.split(" ")[1]);
                         serverDown = null;
+                        rst.add(status);
                     }
                 }
-            } catch (IOException e) {
+                LogFilter.save(rst, "./chapter_002/data/unavailable.txt");
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -41,7 +47,6 @@ public class Analizy {
      */
 
     public static void main(String[] args) {
-        Analizy analizy = new Analizy();
-        analizy.unavailable("./chapter_002/data/server.txt", "./chapter_002/data/unavailable.txt");
+        unavailable("./chapter_002/data/server.txt", "./chapter_002/data/unavailable.txt");
         }
     }
