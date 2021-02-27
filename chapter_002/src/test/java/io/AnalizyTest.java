@@ -17,9 +17,8 @@ public class AnalizyTest {
     @Test
     public void whenReadFile() throws IOException {
         StringBuilder buildString = new StringBuilder();
-        Analizy analizy = new Analizy();
         File target = folder.newFile("target");
-        analizy.unavailable("./data/server.txt", target.getAbsolutePath());
+        Analizy.unavailable("./data/server.txt", target.getAbsolutePath());
         try (BufferedReader read = new BufferedReader(new FileReader(target.getAbsolutePath()))) {
             for (String line = read.readLine(); line != null; line = read.readLine()) {
                 buildString.append(line).append(separator);

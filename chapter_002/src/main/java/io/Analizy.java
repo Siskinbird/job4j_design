@@ -1,49 +1,72 @@
 package io;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class Analizy - analyzes server availability
  * @author Dmitry Chizhov (dimachig@gmail.com)
- * @version 1.11
+ * @version 1.21
  * @since 22.02.21
  */
 
 public class Analizy {
 
+    private static List<String> resultList = new ArrayList<>();
+    private static List<String> tmpList = new ArrayList<>();
+
     /**
-     * Server unavailability statistics
-     * @param source - Incoming data
-     * @param target - Processed data
+     * Method "toList" - implements writing data from a file to a list
+     * @param source - file path to the data provider
      */
 
-    public void unavailable(String source, String target) throws IOException {
-        String separate = System.lineSeparator();
-        StringBuilder build = new StringBuilder();
-        try (PrintWriter writer = new PrintWriter(new BufferedOutputStream(new FileOutputStream(target)))) {
-            try (BufferedReader reader = new BufferedReader(new FileReader(source))) {
-                String line = reader.readLine();
-                while (line != null) {
-                    if (line.startsWith("400") || line.startsWith("500")) {
-                        build.append(line.substring(4)).append(" - ");
-                        while (line.startsWith("400") || line.startsWith("500") || line.isEmpty()) {
-                            line = reader.readLine();
-                        }
-                        build.append(line.substring(4)).append(separate);
-                        writer.write(build.toString());
-                    }
-                    line = reader.readLine();
-                    build = new StringBuilder();
-                }
-            }
+    private static void toList(String source) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(source))) {
+            reader.lines().forEach(tmpList::add);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
-/*
-Test
- */
 
-    public static void main(String[] args) throws IOException {
-        Analizy analizy = new Analizy();
-        analizy.unavailable("./chapter_002/data/server.txt", "./chapter_002/data/unavailable.txt");
+    /**
+     * Method "toFile()" - implements writing the list to a file
+     * @param target - path to the file to write
+     */
+
+    private static void toFile(String target) {
+        try (PrintWriter writer = new PrintWriter(
+                new BufferedOutputStream(
+                        new FileOutputStream(target)
+                ))) {
+            resultList.forEach(data -> writer.write(data + System.lineSeparator()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Server unavailability statistics
+     * @param source data provider file address
+     * @param target file address for recording statistics
+     */
+
+    public static void unavailable(String source, String target) {
+        toList(source);
+        String start = null;
+        String end;
+        String resultStr;
+        for (String line : tmpList) {
+            if ((line.startsWith("400") || line.startsWith("500")) && start == null) {
+                start = line.substring(4);
+            }
+            if ((line.startsWith("200") || line.startsWith("300")) && start != null) {
+                end = line.substring(4);
+                resultStr = start + " - " + end;
+                start = null;
+                resultList.add(resultStr);
+            }
+        }
+        toFile(target);
     }
 }
