@@ -24,6 +24,13 @@ public class AnalizyTest {
                 buildString.append(line).append(separator);
             }
         }
-        assertThat(buildString.toString(), is("10:57:01 - 10:59:01" + separator + "11:01:02 - 11:02:02" + separator));
+        assertThat(buildString.toString(), is("10:57:01 server down"
+                + separator
+                + "10:59:01 server up"
+                + separator
+                + "11:01:02 server down"
+                + separator
+                + "11:02:02 server up"
+                + separator));
     }
 }
