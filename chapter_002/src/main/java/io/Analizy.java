@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Analizy {
 
-    private static final List<String> RESULT_LIST = new ArrayList<>();
+    private static List<String> resultList = new ArrayList<>();
 
     /**
      * Method "toFile()" - implements writing the list to a file
@@ -25,7 +25,7 @@ public class Analizy {
                 new BufferedOutputStream(
                         new FileOutputStream(target)
                 ))) {
-            RESULT_LIST.forEach(data -> writer.write(data + System.lineSeparator()));
+            resultList.forEach(data -> writer.write(data + System.lineSeparator()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,12 +46,12 @@ public class Analizy {
                 while (line != null) {
                     if (line.startsWith("400") || line.startsWith("500")) {
                        build.append(line.substring(4)).append(" - ");
-                        RESULT_LIST.add(line.split(" ")[1] + " server down");
+                        resultList.add(line.split(" ")[1] + " server down");
                         while (line.startsWith("400") || line.startsWith("500") || line.isEmpty()) {
                             line = reader.readLine();
                         }
                         build.append(line.substring(4)).append(separate);
-                        RESULT_LIST.add(line.split(" ")[1] + " server up");
+                        resultList.add(line.split(" ")[1] + " server up");
                     }
                     line = reader.readLine();
                     build = new StringBuilder();
