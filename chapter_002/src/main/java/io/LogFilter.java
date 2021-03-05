@@ -31,9 +31,9 @@ public class LogFilter {
     }
 
     public static void main(String[] args) throws IOException {
-        List<String> log = filter("./io-data/log.txt");
+        List<String> log = filter("./ru.job4j_design.io-data/log.txt");
         System.out.println(log);
-        save(log, "./io-data/log.txt");
+        save(log, "./ru.job4j_design.io-data/log.txt");
         System.out.println(log);
 
     }

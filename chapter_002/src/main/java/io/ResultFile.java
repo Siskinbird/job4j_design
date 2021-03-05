@@ -10,7 +10,7 @@ public class ResultFile {
         String result = Double.toString(calculator.add(1, 11));
         try (PrintWriter out = new PrintWriter(
                 new BufferedOutputStream(
-                        new FileOutputStream("./io-data/result.txt")
+                        new FileOutputStream("./ru.job4j_design.io-data/result.txt")
                 ))) {
             out.write(result);
         } catch (Exception e) {
