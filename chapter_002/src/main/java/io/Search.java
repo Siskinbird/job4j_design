@@ -9,15 +9,20 @@ import java.util.List;
 /**
  * Class Search - implements file search by predicate
  * @author Dmitry Chizhov (dimachig@gmail.com)
- * @version 1.23
+ * @version 1.33
  * @since 04.03.21
  */
 public class Search {
 
     public static void main(String[] args) throws IOException {
-        Path start = Paths.get(".");
-        Files.walkFileTree(start, new PrintFiles());
-        search(start, "js").forEach(System.out::println);
+        if (args.length != 2) {
+            throw new IllegalArgumentException("Root folder is null. Usage java -jar dir.jar ROOT_FOLDER. .txt");
+        }
+        Path start = Paths.get(args[0]);
+        if (!start.toFile().isDirectory()) {
+            throw new IllegalArgumentException("Path not exist");
+        }
+        search(start, args[1]).forEach(System.out::println);
     }
 
     /**
