@@ -4,7 +4,6 @@ import io.SearchFiles;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -19,6 +18,7 @@ import java.util.zip.ZipOutputStream;
 
 public class Zip {
     ArgZip argZip;
+    public List<Path> paths = new ArrayList<>();
 
     public Zip(ArgZip argZip) {
         this.argZip = argZip;
@@ -29,18 +29,35 @@ public class Zip {
     }
 
     /**
-     * Method packFiles() - Implements packing files into an archive
-     * @param sources list of paths
-     * @param target file to write
-     * @throws IOException - exception
+     * Method excludeList() - Excludes getting into the list of files specified in the filter
+     * @param root - Incoming path list
+     * @return - list of paths after filtering
+     * @throws IOException
      */
 
-    public void packFiles(List<Path> sources, File target) throws IOException {
-        SearchFiles searcher = new SearchFiles(p -> !p.toFile().getName().endsWith(argZip.exclude()));
-        Files.walkFileTree(Paths.get(argZip.directory()), searcher);
-        sources.forEach(searcher.getPaths()::add);
-        for (Path source : sources) {
-            packSingleFile(source.toFile(), target);
+    public List<Path> excludeList (Path root) throws IOException {
+        SearchFiles searcher = new SearchFiles(p -> p.toFile().getName().endsWith(argZip.exclude()));
+        Files.walkFileTree(root, searcher);
+        paths.forEach(searcher.getPaths()::add);
+        return paths;
+    }
+
+    /**
+     * Method packFiles() - Implements packing files into an archive
+     */
+
+    public void packFiles() {
+        try (ZipOutputStream zipPack = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(argZip.output())))) {
+            for (Path source : paths) {
+                zipPack.putNextEntry(
+                        new ZipEntry(source.toFile().getAbsolutePath()));
+                try (BufferedInputStream out = new BufferedInputStream(
+                        new FileInputStream(source.toFile().getPath()))) {
+                    zipPack.write(out.readAllBytes());
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -67,17 +84,6 @@ public class Zip {
     public static void main(String[] args) throws IOException {
         ArgZip argZip = new ArgZip(args);
         Zip zip = new Zip(argZip);
-
-        new Zip(argZip).packSingleFile(
-                new File("./chapter_005/pom.xml"),
-                new File("./chapter_005/pom.zip")
-        );
-        List<Path> list = new ArrayList<>();
-        Path path1 = Path.of("./chapter_002/data/server.txt");
-        Path path2 = Path.of("./chapter_002/data/unavailable.txt");
-        list.add(path1);
-        list.add(path2);
-
-        zip.packFiles(list, new File(argZip.output()));
+        zip.packFiles();
     }
 }
