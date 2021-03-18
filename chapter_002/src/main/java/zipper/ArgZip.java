@@ -21,6 +21,7 @@ public class ArgZip {
 /*
 Map for args
  */
+
     public Map<String, String> argsValues() {
         for (String argument : args) {
             String[] arr = argument.split("=");
@@ -34,6 +35,7 @@ Map for args
 /*
 argsValues validation
  */
+
     public boolean valid() {
         if (this.argsValues().size() != 3) {
             throw new IllegalArgumentException();
@@ -43,18 +45,21 @@ argsValues validation
 /*
 getDirectory
  */
+
     public String directory() {
         return values.get("d");
     }
 /*
 getExclude
  */
+
     public String exclude() {
         return values.get("e");
     }
 /*
 getOutput file
  */
+
     public String output() {
         return values.get("o");
     }

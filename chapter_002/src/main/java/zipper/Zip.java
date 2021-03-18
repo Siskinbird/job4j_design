@@ -18,7 +18,7 @@ import java.util.zip.ZipOutputStream;
 
 public class Zip {
     ArgZip argZip;
-    public List<Path> paths = new ArrayList<>();
+    private List<Path> paths = new ArrayList<>();
 
     public Zip(ArgZip argZip) {
         this.argZip = argZip;
@@ -32,11 +32,11 @@ public class Zip {
      * Method excludeList() - Excludes getting into the list of files specified in the filter
      * @param root - Incoming path list
      * @return - list of paths after filtering
-     * @throws IOException
+     * @throws IOException - exception
      */
 
-    public List<Path> excludeList (Path root) throws IOException {
-        SearchFiles searcher = new SearchFiles(p -> p.toFile().getName().endsWith(argZip.exclude()));
+    public List<Path> excludeList(Path root) throws IOException {
+        SearchFiles searcher = new SearchFiles(p -> !p.toFile().getName().endsWith(argZip.exclude()));
         Files.walkFileTree(root, searcher);
         paths.forEach(searcher.getPaths()::add);
         return paths;
@@ -83,7 +83,11 @@ public class Zip {
 
     public static void main(String[] args) throws IOException {
         ArgZip argZip = new ArgZip(args);
-        Zip zip = new Zip(argZip);
-        zip.packFiles();
+        if (argZip.valid()) {
+            Zip zip = new Zip(argZip);
+            zip.packFiles();
+        } else {
+            throw new IllegalArgumentException("Not all arguments");
+        }
     }
 }
