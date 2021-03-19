@@ -83,11 +83,11 @@ public class Zip {
 
     public static void main(String[] args) throws IOException {
         ArgZip argZip = new ArgZip(args);
-        if (argZip.valid()) {
-            Zip zip = new Zip(argZip);
-            zip.packFiles();
-        } else {
+        if (!argZip.valid()) {
             throw new IllegalArgumentException("Not all arguments");
+
         }
+        Zip zip = new Zip(argZip);
+        zip.packFiles();
     }
 }
