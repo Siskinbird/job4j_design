@@ -1,9 +1,11 @@
 package zipper;
 
+
 import io.SearchFiles;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -12,12 +14,12 @@ import java.util.zip.ZipOutputStream;
 /**
  * Class Zip - Implements packing files into an archive
  * @author Dmitry Chizhov (dimachig@gmail.com)
- * @version 1.00
+ * @version 1.33
  * @since 12.03.21
  */
 
 public class Zip {
-    ArgZip argZip;
+    private ArgZip argZip;
     private List<Path> paths = new ArrayList<>();
 
     public Zip(ArgZip argZip) {
@@ -30,15 +32,15 @@ public class Zip {
 
     /**
      * Method excludeList() - Excludes getting into the list of files specified in the filter
-     * @param root - Incoming path list
+    // * @param root - Incoming path list
      * @return - list of paths after filtering
      * @throws IOException - exception
      */
 
-    public List<Path> excludeList(Path root) throws IOException {
+    public List<Path> excludeList() throws IOException {
         SearchFiles searcher = new SearchFiles(p -> !p.toFile().getName().endsWith(argZip.exclude()));
-        Files.walkFileTree(root, searcher);
-        paths.forEach(searcher.getPaths()::add);
+        Files.walkFileTree(Paths.get(argZip.directory()), searcher);
+        paths.addAll(searcher.getPaths());
         return paths;
     }
 
@@ -46,7 +48,7 @@ public class Zip {
      * Method packFiles() - Implements packing files into an archive
      */
 
-    public void packFiles() {
+    public void packFiles() throws IOException {
         try (ZipOutputStream zipPack = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(argZip.output())))) {
             for (Path source : paths) {
                 zipPack.putNextEntry(
@@ -85,9 +87,9 @@ public class Zip {
         ArgZip argZip = new ArgZip(args);
         if (!argZip.valid()) {
             throw new IllegalArgumentException("Not all arguments");
-
         }
         Zip zip = new Zip(argZip);
+        zip.excludeList();
         zip.packFiles();
     }
 }
