@@ -1,4 +1,4 @@
-package zipper;
+package io.zipper;
 
 import java.util.HashMap;
 import java.util.Map;

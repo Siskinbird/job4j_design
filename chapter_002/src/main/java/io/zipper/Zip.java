@@ -1,4 +1,4 @@
-package zipper;
+package io.zipper;
 
 
 import io.SearchFiles;
@@ -32,7 +32,7 @@ public class Zip {
 
     /**
      * Method excludeList() - Excludes getting into the list of files specified in the filter
-    // * @param root - Incoming path list
+     // * @param root - Incoming path list
      * @return - list of paths after filtering
      * @throws IOException - exception
      */

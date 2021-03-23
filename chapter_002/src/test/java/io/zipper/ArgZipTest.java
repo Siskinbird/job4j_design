@@ -1,4 +1,4 @@
-package zipper;
+package io.zipper;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
