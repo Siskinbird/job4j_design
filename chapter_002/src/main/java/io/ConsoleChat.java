@@ -13,14 +13,15 @@ import java.util.*;
 public class ConsoleChat {
     private final String path;
     private final String botAnswers;
-    private List<String> answers = new ArrayList<>();
+    private final List<String> answers = new ArrayList<>();
+    private final List<String> log = new ArrayList<>();
     private static final String OUT = "Закончить";
     private static final String STOP = "Стоп";
     private static final String CONTINUE = "Продолжить";
 
     /**
      * ConsoleChat
-     * @param path - The address of the file with the bot's responses
+     * @param path - The address of the file with the bots responses
      * @param botAnswers - File with user and bot dialogs
      */
 
@@ -28,7 +29,6 @@ public class ConsoleChat {
         this.path = path;
         this.botAnswers = botAnswers;
     }
-
     /*
     The method implements the work of the bot logic, command processing
      */
@@ -39,32 +39,33 @@ public class ConsoleChat {
         System.out.println("***Команды*** "
                 + ln + "1.Продолжить - следующая цитата"
                 + ln + "2.Стоп - остановить работу бота"
-                + ln + "3.Завершить - завершить работу программы" + ln);
+                + ln + "3.Закончить - завершить работу программы" + ln);
         Scanner in = new Scanner(System.in);
         String command = in.nextLine();
         getListOfAnswers();
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(botAnswers))) {
             while (!OUT.equals(command)) {
                 if (STOP.equals(command)) {
                     rsl = false;
                 }
                 if (CONTINUE.equals(command)) {
                     rsl = true;
+                    log.add(command);
                 }
-                writer.write(command + ln);
                 if (rsl) {
                     String answer = getBotAnswers();
                     System.out.println(answer);
-                    writer.write(answer + ln);
+                    log.add(answer);
                 }
+
                 command = in.nextLine();
+                log.add(command);
+
             }
-            writer.write(command);
+        LogFilter.save(log, botAnswers);
         }
-    }
 
     /*
-    The method reads the lines with the bot's responses from the file
+    The method reads the lines with the bots responses from the file
      */
 
     public void getListOfAnswers() throws IOException {
@@ -80,13 +81,12 @@ public class ConsoleChat {
     */
 
     public String getBotAnswers() {
-        String phrase;
         int index = new Random().nextInt(answers.size());
         return answers.get(index);
     }
 
     public static void main(String[] args) throws IOException {
-        ConsoleChat cc = new ConsoleChat("C:\\Projects\\job4j_design\\chapter_002\\data\\botSays.txt", "C:\\Projects\\job4j_design\\chapter_002\\data\\userVSbot.txt");
+        ConsoleChat cc = new ConsoleChat("./chapter_002/data/botSays.txt", "./chapter_002/data/log_dialog.txt");
         cc.run();
     }
 }
