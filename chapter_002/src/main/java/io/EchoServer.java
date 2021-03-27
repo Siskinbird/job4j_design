@@ -18,14 +18,17 @@ public class EchoServer {
                     while (!(string = in.readLine()).isEmpty()) {
                         System.out.println(string);
                         if (string.contains("Bye")) {
-                            server.close();
+                            out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                            out.write("Bye bye\r\n\r\n".getBytes());
+                            out.flush();
                             break;
                         }
                     }
-                    out.write("HTTP/1.1 200 OK\r\n".getBytes());
+                    out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
                     out.flush();
+                    }
+                    socket.close();
                 }
             }
         }
     }
-}
