@@ -23,8 +23,7 @@ public class EchoServer {
                     if (str != null && !str.isEmpty()) {
                         if (str.contains("Hello")) {
                             out.write(("Hey! I am a test server, a young programmer wrote me.\n"
-                                    + "To find out which commands\n"
-                                    + "I react to write \"Help\"\r\r\r\n").getBytes());
+                                    + "To find out which commands I react to write \"Help\"\r\r\r\n").getBytes());
                         } else if (str.contains("Help")) {
                             out.write(("Request command: \n"
                                     + "Hello - Hello\n"
