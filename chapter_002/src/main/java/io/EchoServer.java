@@ -1,5 +1,8 @@
 package io;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,7 +11,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class EchoServer {
-    public static void main(String[] args) throws IOException {
+    private static final Logger LOG = LoggerFactory.getLogger(EchoServer.class.getName());
+
+    public static void main(String[] args) {
         int count = 0;
         try (ServerSocket server = new ServerSocket(9000)) {
             while (!server.isClosed()) {
@@ -31,6 +36,13 @@ public class EchoServer {
                                     + "Help - Help\n"
                                     + "These are all commands."
                                     + "An attempt to enter a third-party command can damage your computer.\r\r\r\n").getBytes());
+                        } else if (str.contains("ShowExceptionPlz")) {
+                            out.write("OK, Take it\r\n\r\n".getBytes());
+                            try {
+                                throw new Exception("This is your exception");
+                            } catch (Exception e) {
+                                LOG.error("I'm work, I'm exception", e);
+                            }
                         } else if (str.contains("Exit")) {
                             out.write("Connection lost\r\r\r\n".getBytes());
                             out.flush();
@@ -42,6 +54,8 @@ public class EchoServer {
                     }
                 }
             }
+        } catch (IOException e) {
+            LOG.error("Error", e);
         }
     }
 }
