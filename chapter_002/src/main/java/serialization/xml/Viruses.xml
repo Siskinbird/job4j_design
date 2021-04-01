@@ -1,0 +1,14 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<virusBase>
+    <viruses>
+        <virus>
+            <coVID contagiousness="true" since="2020">
+                <coronaVir> strain="CoVID19"</coronaVir>
+                <properties>
+                    <prperty>Very hi</prperty>
+                    <property>Very hi, Deadly dangerous, You have no chance</property>
+                </properties>
+            </coVID>
+        </virus>
+    </viruses>
+</virusBase>
