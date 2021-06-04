@@ -1,36 +1,62 @@
 package io;
 
 import java.util.LinkedList;
+import java.util.StringJoiner;
 
 public class Shell {
     private LinkedList<String> res = new LinkedList<>();
 
     public void cd(String path) {
-        StringBuilder sb = new StringBuilder();
-        if (path.equals("/")) {
-            res.addFirst(path);
-            return;
+        /* when absolutePath */
+        if (path.startsWith("/")) {
+            parseAbsolute(path);
         }
-        String[] str;
-        str = path.split("/");
-        for (int i = 0; i < str.length; i++) {
-            if (str[i].equals("")) {
-                continue;
-            }
-            if (!str[i].equals("..")) {
-                res.addLast(str[i]);
-            } else {
-                res.pollFirst();
-            }
+        /* when rootPath */
+        if (path.equals("/")) {
+            res.clear();
 
+        /* when userLocalPath */
+        } else {
+            parseRelative(path);
+        }
+    }
+
+    /* when absolutePath */
+    void parseAbsolute(String path) {
+            res.clear();
+            if (path.startsWith("/")) {
+                String[] str;
+                str = path.split("/");
+                for (int i = 0; i < str.length; i++) {
+                    if (str[i].equals("")) {
+                        continue;
+                    }
+                    res.addLast(str[i]);
+                }
+            }
+        }
+
+    /* when relativePath */
+
+    void parseRelative(String path) {
+        if (!path.equals("/") && !path.startsWith("/")) {
+            String[] str;
+            str = path.split("/");
+            for (String s : str) {
+                if (s.equals("..")) {
+                    res.clear();
+                } else {
+                    res.addLast(s);
+                }
+            }
         }
     }
 
     public String pwd() {
-        StringBuilder sb = new StringBuilder();
+        StringJoiner sj = new StringJoiner("/", "/", "");
         while (!res.isEmpty()) {
-            sb.append(res.pollFirst());
+            sj.add(res.pollFirst());
         }
-        return sb.toString();
+        return sj.toString();
     }
 }
