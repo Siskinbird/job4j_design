@@ -7,36 +7,30 @@ public class Shell {
     private LinkedList<String> res = new LinkedList<>();
 
     public void cd(String path) {
-        /* when absolutePath */
+
         if (path.startsWith("/")) {
             parseAbsolute(path);
-        }
-        /* when rootPath */
-        if (path.equals("/")) {
-            res.clear();
-
-        /* when userLocalPath */
         } else {
             parseRelative(path);
         }
     }
 
-    /* when absolutePath */
     void parseAbsolute(String path) {
+        res.clear();
+        if (path.equals("/")) {
             res.clear();
-            if (path.startsWith("/")) {
-                String[] str;
-                str = path.split("/");
-                for (int i = 0; i < str.length; i++) {
-                    if (str[i].equals("")) {
-                        continue;
-                    }
-                    res.addLast(str[i]);
+        }
+        if (path.startsWith("/")) {
+            String[] str;
+            str = path.split("/");
+            for (String s : str) {
+                if (s.equals("")) {
+                    continue;
                 }
+                res.addLast(s);
             }
         }
-
-    /* when relativePath */
+    }
 
     void parseRelative(String path) {
         if (!path.equals("/") && !path.startsWith("/")) {
@@ -44,7 +38,7 @@ public class Shell {
             str = path.split("/");
             for (String s : str) {
                 if (s.equals("..")) {
-                    res.clear();
+                    res.removeLast();
                 } else {
                     res.addLast(s);
                 }
