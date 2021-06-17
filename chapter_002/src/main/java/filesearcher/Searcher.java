@@ -1,3 +1,4 @@
+package filesearcher;
 
 import java.nio.file.FileVisitResult;
 import java.nio.file.Path;
