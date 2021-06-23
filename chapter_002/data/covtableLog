@@ -1,0 +1,11 @@
+select * from covtable;
+delete from covtable;
+select * from covtable;
+update covtable set started = 'October 12, 2000';
+insert into covtable (name, area, started) values('China', 'Chines', 'November 11, 2019');
+create table covtable(
+	id serial primary key,
+	name varchar(255),
+	area text,
+	started date 
+);
