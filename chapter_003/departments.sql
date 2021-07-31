@@ -1,6 +1,6 @@
 /* Left join
-select * from emploees e
-left join departments d
+select * from departments d
+left join emploees e
 on e.department_id = d.id;
 */
 

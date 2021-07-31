@@ -33,3 +33,8 @@ cross join teens as n2
 where concat(n1.gender_id, ' ', n2.gender_id) = '1 2' 
 or concat(n1.gender_id, ' ', n2.gender_id) = '2 1';
 */
+select n1.name as Имена, n2.name as Именя, 
+concat(n1.gender_id, ' ', n2.gender_id) as Пары 
+from teens n1 
+cross join teens as n2
+where n1.gender_id != n2.gender_id;
