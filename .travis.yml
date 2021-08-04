@@ -12,6 +12,13 @@ sudo: false
 # Здесь используется сторонни сервис https://codecov.io/
 after_success:
   - bash <(curl -s https://codecov.ru.job4j_design.io/bash)
+# Start PostgreSQL
+services:
+  - postgresql
+
+# Create a database
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
 
 # Отправлять уведомление на почту (Изменить на свою) если сборка упала
 notifications:
@@ -20,3 +27,4 @@ notifications:
       - dimachig@gmail.com
     on_success: never # default: change
     on_failure: always # default: always
+
